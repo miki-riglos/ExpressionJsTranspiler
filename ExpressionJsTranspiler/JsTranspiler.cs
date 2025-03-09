@@ -74,7 +74,7 @@ public class JsTranspiler : ExpressionVisitor
 				runningExpression = runningExpression.Expression as MemberExpression;
 			}
 
-			var memberFormat = !node.Type.IsModelItemCollection() ? _options.MemberFormat : _options.CollectionMemberFormat;
+			var memberFormat = _options.GetMemberFormat(node.Type);
 
 			// (mi as ModelItemType).ModelItemProperty || ((ModelItemType)mi).ModelItemProperty
 			if (node.Expression.NodeType == ExpressionType.TypeAs || node.Expression.NodeType == ExpressionType.Convert) {

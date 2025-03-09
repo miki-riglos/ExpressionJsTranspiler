@@ -78,8 +78,7 @@ public class JsTranspilerOptions
 		return BinaryFormat;
 	}
 
-	public string MemberFormat { get; protected set; } = "{0}.{1}";         // parameter name, property name/path
-	public string CollectionMemberFormat { get; protected set; } = "{0}.{1}";
+	public Func<Type, string> GetMemberFormat { get; protected set; } = nodeType => "{0}.{1}";
 
 	public string ParameterFormat { get; protected set; } = "{0}";          // parameter name
 
@@ -117,7 +116,7 @@ public class JsTranspilerOptions
 			}
 		},
 		to => to.BodyFormat = "{0}",
-		to => to.MemberFormat = "${{{1}}}",
+		to => to.GetMemberFormat = nodeType => "${{{1}}}",
 
 		to => to.StringFormatCallBeforeFormat = "",
 		to => to.StringFormatCallAfter1stLoopFormat = "",
@@ -125,8 +124,13 @@ public class JsTranspilerOptions
 		to => to.StringFormatCallAfterFormat = ""
 	);
 
+	private static bool isCollection(Type type) {
+		return type != typeof(string) && type != typeof(byte[])
+					&& type.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+					&& type.GetGenericArguments().First().IsClass && type.GetGenericArguments().First() != typeof(string);
+	}
+
 	public static JsTranspilerOptions ValueGetter = new(
-		to => to.MemberFormat = "{0}.{1}.value()",
-		to => to.CollectionMemberFormat = "{0}.{1}.getChildProperties.collection()"
+		to => to.GetMemberFormat = nodeType => !isCollection(nodeType) ? "{0}.{1}.value()" : "{0}.{1}.getChildProperties.collection()"
 	);
 }

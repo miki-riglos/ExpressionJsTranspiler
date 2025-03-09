@@ -2,12 +2,15 @@
 
 namespace ExpressionJsTranspiler;
 
-internal record Segment(bool IsMatch, string Value);
+public class Segment(bool isMatch, string value) {
+	public bool IsMatch => isMatch;
+	public string Value => value;
+}
 
-internal class StringFormat
+public class StringFormat
 {
 	// Segments in string Format template: "First value is {0}, second value is {1}"
-	internal static List<Segment> GetSegments(string template, string pattern = @"{(\d)}") {
+	public static List<Segment> GetSegments(string template, string pattern = @"{(\d)}") {
 		var segments = new List<Segment>();
 
 		var re = new Regex(pattern);
