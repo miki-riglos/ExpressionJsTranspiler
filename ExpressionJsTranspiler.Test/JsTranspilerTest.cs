@@ -35,6 +35,30 @@ public class Warehouse : DefaultModelItem
 public class JsTranspilerTest
 {
 	[TestMethod]
+	public void ValidationRuleTest() {
+		Expression<Func<Warehouse, bool>> isValidExpression = wh => wh.Volume > 10;
+		var jsTranspiler = new JsTranspiler(isValidExpression);
+
+		// model
+		Warehouse warehouse = new Warehouse() { 
+			Name = "Main",
+			Volume = 20
+		};
+
+		// compile and validate
+		var isValid = isValidExpression.Compile();
+		Assert.IsTrue(isValid(warehouse));
+
+		// client side
+		var jsFunctionCtorArgs = jsTranspiler.GetJsFunctionCtorArgs();
+		Assert.AreEqual(2, jsFunctionCtorArgs.Count);
+		Assert.AreEqual("wh", jsFunctionCtorArgs[0]);
+		Assert.AreEqual("return (wh.Volume > 10);", jsFunctionCtorArgs[1]);
+		// ... create function in JavaScript
+		// var isValid = Function.apply(null, jsFunctionCtorArgs);
+	}
+
+	[TestMethod]
 	public void PredicatesTest() {
 		var predicates = new List<Expression<Func<Warehouse, bool>>>() {
 			wh => wh.WarehouseId == 1,

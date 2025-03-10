@@ -1,9 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	  
+	<PackageId>ExpressionJsTranspiler</PackageId>
+	<Description>Converts a C# Lambda Expression into a Javascript function</Description>
+	<Version>0.1.0</Version>
+	<Authors>Miki Riglos</Authors>
+	<Company>mriglos.net</Company>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+	<RepositoryUrl>https://github.com/miki-riglos/ExpressionJsTranspiler</RepositoryUrl>
   </PropertyGroup>
-
+  <ItemGroup>
+	  <None Include="..\README.md" Pack="true" PackagePath="\"/>
+	  <None Include="..\LICENSE.txt" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 </Project>
