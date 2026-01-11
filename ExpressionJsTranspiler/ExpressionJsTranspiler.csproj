@@ -6,7 +6,7 @@
 	  
 	<PackageId>ExpressionJsTranspiler</PackageId>
 	<Description>Converts a C# Lambda Expression into a Javascript function</Description>
-	<Version>0.2.0</Version>
+	<Version>0.3.0</Version>
 	<Authors>Miki Riglos</Authors>
 	<Company>mriglos.net</Company>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
