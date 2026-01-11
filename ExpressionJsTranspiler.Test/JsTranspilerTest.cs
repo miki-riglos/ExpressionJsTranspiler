@@ -107,7 +107,10 @@ public class JsTranspilerTest
 			bu => bu.Warehouses.Count(wh => wh.Volume > 0) > 1,
 			bu => bu.Warehouses.Any(),
 			bu => bu.Warehouses.Any(wh => wh.Volume > 0),
-			bu => bu.Warehouses.Select(wh => wh.Volume).Sum()
+			bu => bu.Warehouses.Select(wh => wh.Volume).Sum(),
+			bu => bu.Warehouses.Distinct(),
+			bu => bu.Warehouses.OrderBy(wh => wh.Name),
+			bu => bu.Warehouses.OrderByDescending(wh => wh.Name),
 		};
 		var expectedJsList = new List<string>() {
 			"function(bu) { return bu.Warehouses; }",
@@ -117,7 +120,10 @@ public class JsTranspilerTest
 			"function(bu) { return (enumerable.count(bu.Warehouses, function(wh) { return (wh.Volume > 0); }) > 1); }",
 			"function(bu) { return enumerable.any(bu.Warehouses); }",
 			"function(bu) { return enumerable.any(bu.Warehouses, function(wh) { return (wh.Volume > 0); }); }",
-			"function(bu) { return enumerable.sum(enumerable.select(bu.Warehouses, function(wh) { return wh.Volume; })); }"
+			"function(bu) { return enumerable.sum(enumerable.select(bu.Warehouses, function(wh) { return wh.Volume; })); }",
+			"function(bu) { return enumerable.distinct(bu.Warehouses); }",
+			"function(bu) { return enumerable.orderBy(bu.Warehouses, function(wh) { return wh.Name; }); }",
+			"function(bu) { return enumerable.orderByDescending(bu.Warehouses, function(wh) { return wh.Name; }); }"
 		};
 
 		foreach (var pair in predicates.Zip(expectedJsList, (predicate, expectedJs) => new { Predicate = predicate, ExpectedJs = expectedJs })) {

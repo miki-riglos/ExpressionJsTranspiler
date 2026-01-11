@@ -62,7 +62,10 @@ public class JsTranspilerOptions
 		[nameof(Enumerable.Sum)] = "enumerable.sum",
 		[nameof(Enumerable.Average)] = "enumerable.average",
 		[nameof(Enumerable.Min)] = "enumerable.min",
-		[nameof(Enumerable.Max)] = "enumerable.max"
+		[nameof(Enumerable.Max)] = "enumerable.max",
+		[nameof(Enumerable.Distinct)] = "enumerable.distinct",
+		[nameof(Enumerable.OrderBy)] = "enumerable.orderBy",
+		[nameof(Enumerable.OrderByDescending)] = "enumerable.orderByDescending"
 	};
 
 	public string BodyFormat { get; protected set; } = "return {0};";        // body
